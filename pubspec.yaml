@@ -1,0 +1,41 @@
+name: portfolio_tuner
+description: "A simple tuner using the YIN algorithm."
+version: 1.0.0+1
+homepage: https://github.com/TiagoLacerda/portfolio
+publish_to: "none"
+
+environment:
+  sdk: ^3.12.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  portfolio_design_system:
+    path: ../portfolio-design-system
+    # git:
+    #   url: git@github.com/tiagolacerda/portfolio-design-system   
+
+  overflow_fallback_widget: ^0.0.2
+  overlay_options_button: ^0.0.1
+
+  cupertino_icons: ^1.0.8
+  flutter_svg: ^2.2.3
+  go_router: ^17.2.3
+  google_fonts: ^8.1.0
+  modular_localization: ^1.0.0
+  url_launcher: ^6.3.2
+  web: ^1.1.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true

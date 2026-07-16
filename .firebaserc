@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "portfolio-8b527"
+  },
+  "targets": {
+    "portfolio-8b527": {
+      "hosting": {
+        "tuner": [
+          "portfolio-8b527-tuner"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

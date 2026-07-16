@@ -1,0 +1,36 @@
+{
+    "modules": {
+        "home": {
+            "homeView": {
+                "body0": "O ",
+                "body1": "algoritmo YIN",
+                "body2": " estima o tom comparando o som com versões levemente deslocadas dele próprio até encontrar a melhor correspondência, sendo o inverso deste atraso a ",
+                "body3": "frequência estimada",
+                "body4": " do sinal.",
+                "body5": "O áudio do microfone é processado por uma ",
+                "body6": "engine em C++",
+                "body7": ", compilada para ",
+                "body8": "WebAssembly",
+                "body9": " e integrada ao aplicativo por uma ponte em ",
+                "body10": "JavaScript",
+                "body11": ". As estimativas de tom são enviadas à interface em ",
+                "body12": "Flutter",
+                "body13": ", onde são exibidas em tempo real.",
+                "body14": "Pressione o botão abaixo para fixar uma nota como referência. A afinação padrão das cordas de um violão é E2 A2 D3 G3 B3 E4.",
+                "button": "Pressione para afinar"
+            },
+            "widgets": {
+                "microphoneAccessDialog": {
+                    "title": "Acesso ao Microfone",
+                    "body": "Para utilizar o afinador é necessário que você permita o acesso ao microfone nas configurações do seu navegador.",
+                    "button": "ENTENDI"
+                },
+                "tunerTargetDialog": {
+                    "title": "SELECIONE UMA NOTA",
+                    "clear": "LIMPAR",
+                    "select": "SELECIONAR"
+                }
+            }
+        }
+    }
+}

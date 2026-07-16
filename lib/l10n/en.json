@@ -1,0 +1,36 @@
+{
+    "modules": {
+        "home": {
+            "homeView": {
+                "body0": "The ",
+                "body1": "YIN algorithm",
+                "body2": " estimates pitch by comparing the sound with slightly shifted versions of itself until it finds the best match, with the inverse of this delay being the signal's ",
+                "body3": "estimated frequency",
+                "body4": ".",
+                "body5": "Microphone audio is processed by a ",
+                "body6": "C++ engine",
+                "body7": ", compiled to ",
+                "body8": "WebAssembly",
+                "body9": " and integrated into the application through a ",
+                "body10": "JavaScript",
+                "body11": " bridge. Pitch estimates are sent to the ",
+                "body12": "Flutter",
+                "body13": " interface, where they are displayed in real time.",
+                "body14": "Press the button below to set a note as the reference. The standard tuning for a guitar's strings is E2 A2 D3 G3 B3 E4.",
+                "button": "Tap to tune"
+            },
+            "widgets": {
+                "microphoneAccessDialog": {
+                    "title": "Microphone Access",
+                    "body": "To use the tuner, you need to allow access to the microphone in your browser settings.",
+                    "button": "GOT IT"
+                },
+                "tunerTargetDialog": {
+                    "title": "SELECT A NOTE",
+                    "clear": "CLEAR",
+                    "select": "SELECT"
+                }
+            }
+        }
+    }
+}
