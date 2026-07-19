@@ -22,51 +22,51 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = TextTheme.of(context);
-    final colorScheme = ColorScheme.of(context);
-
-    final textStyleNormal = textTheme.bodyLarge?.copyWith(
-      color: colorScheme.onSurface.withValues(alpha: 0.6),
-    );
-
-    final aboutStyleHighlight = textTheme.titleMedium?.copyWith(
-      color: colorScheme.primary,
-    );
-
-    final brightnessSwitch = PortfolioBrightnessSwitch(
-      onPressed: () => AppController.instance.toggleThemeMode(),
-    );
-
-    final localeButton = OverlayOptionsButton(
-      initialValue: AppController.instance.locale,
-      items: AppController.instance.supportedLocales,
-      onChanged: (value) => AppController.instance.locale = value,
-      itemBuilder: (context, index, value, select) {
-        final assetName = switch (value.languageCode) {
-          'pt' => PortfolioIcons.pt,
-          'en' => PortfolioIcons.en,
-          _ => PortfolioIcons.pt,
-        };
-
-        return IconButton(
-          onPressed: () => select(),
-          icon: SizedBox.square(
-            dimension: 24.0,
-            child: ClipOval(
-              child: SvgPicture.asset(
-                assetName,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-        );
-      },
-    );
-
     return SelectionArea(
       child: ListenableBuilder(
         listenable: controller,
         builder: (context, child) {
+          final textTheme = TextTheme.of(context);
+          final colorScheme = ColorScheme.of(context);
+
+          final textStyleNormal = textTheme.bodyLarge?.copyWith(
+            color: colorScheme.onSurface.withValues(alpha: 0.6),
+          );
+
+          final aboutStyleHighlight = textTheme.titleMedium?.copyWith(
+            color: colorScheme.primary,
+          );
+
+          final brightnessSwitch = PortfolioBrightnessSwitch(
+            onPressed: () => AppController.instance.toggleThemeMode(),
+          );
+
+          final localeButton = OverlayOptionsButton(
+            initialValue: AppController.instance.locale,
+            items: AppController.instance.supportedLocales,
+            onChanged: (value) => AppController.instance.locale = value,
+            itemBuilder: (context, index, value, select) {
+              final assetName = switch (value.languageCode) {
+                'pt' => PortfolioIcons.pt,
+                'en' => PortfolioIcons.en,
+                _ => PortfolioIcons.pt,
+              };
+
+              return IconButton(
+                onPressed: () => select(),
+                icon: SizedBox.square(
+                  dimension: 24.0,
+                  child: ClipOval(
+                    child: SvgPicture.asset(
+                      assetName,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
+
           return Scaffold(
             appBar: AppBar(
               toolbarHeight: 80.0,

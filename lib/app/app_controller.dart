@@ -26,14 +26,10 @@ class AppController extends ChangeNotifier {
       final cookie = Cookie.get('locale');
 
       if (cookie != null) {
-        final parts = cookie.split('_');
-
-        _locale = switch (parts.length) {
-          1 => Locale.fromSubtags(languageCode: parts[0]),
-          2 => Locale.fromSubtags(languageCode: parts[0], countryCode: parts[1]),
-          3 => Locale.fromSubtags(languageCode: parts[0], countryCode: parts[1], scriptCode: parts[2]),
-          _ => supportedLocales.first,
-        };
+        _locale = supportedLocales.firstWhere(
+          (locale) => locale.toString() == cookie,
+          orElse: () => supportedLocales.first,
+        );
       }
     } catch (e) {
       log(e.toString());
@@ -54,7 +50,7 @@ class AppController extends ChangeNotifier {
     Cookie.set(
       'locale',
       newValue.toString(),
-      domain: '.tiagomlbrasil.com',
+      domain: 'tiagomlbrasil.com',
     );
   }
 
@@ -76,7 +72,7 @@ class AppController extends ChangeNotifier {
         ThemeMode.light => 'light',
         ThemeMode.dark => 'dark',
       },
-      domain: '.tiagomlbrasil.com',
+      domain: 'tiagomlbrasil.com',
     );
   }
 
