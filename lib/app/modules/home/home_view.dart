@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:overlay_options_button/overlay_options_button.dart';
@@ -18,7 +19,11 @@ class HomeView extends StatelessWidget {
 
   final localizations = ModularLocalization.localizations.modules.home.homeView;
 
-  HomeView({super.key, required this.controller, this.spacing = 40.0});
+  HomeView({
+    super.key,
+    required this.controller,
+    this.spacing = 16.0,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +72,81 @@ class HomeView extends StatelessWidget {
             },
           );
 
+          final description = AutoSizeText.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: localizations.body0,
+                  style: textStyleNormal,
+                ),
+                TextSpan(
+                  text: localizations.body1,
+                  style: aboutStyleHighlight,
+                ),
+                TextSpan(
+                  text: localizations.body2,
+                  style: textStyleNormal,
+                ),
+                TextSpan(
+                  text: localizations.body3,
+                  style: aboutStyleHighlight,
+                ),
+                TextSpan(
+                  text: localizations.body4,
+                  style: textStyleNormal,
+                ),
+                TextSpan(
+                  text: '\n\n',
+                ),
+                TextSpan(
+                  text: localizations.body5,
+                  style: textStyleNormal,
+                ),
+                TextSpan(
+                  text: localizations.body6,
+                  style: aboutStyleHighlight,
+                ),
+                TextSpan(
+                  text: localizations.body7,
+                  style: textStyleNormal,
+                ),
+                TextSpan(
+                  text: localizations.body8,
+                  style: aboutStyleHighlight,
+                ),
+                TextSpan(
+                  text: localizations.body9,
+                  style: textStyleNormal,
+                ),
+                TextSpan(
+                  text: localizations.body10,
+                  style: aboutStyleHighlight,
+                ),
+                TextSpan(
+                  text: localizations.body11,
+                  style: textStyleNormal,
+                ),
+                TextSpan(
+                  text: localizations.body12,
+                  style: aboutStyleHighlight,
+                ),
+                TextSpan(
+                  text: localizations.body13,
+                  style: textStyleNormal,
+                ),
+                TextSpan(
+                  text: '\n\n',
+                ),
+                TextSpan(
+                  text: localizations.body14,
+                  style: textStyleNormal,
+                ),
+              ],
+            ),
+            textAlign: TextAlign.justify,
+            minFontSize: 1.0,
+          );
+
           return Scaffold(
             appBar: AppBar(
               toolbarHeight: 80.0,
@@ -103,92 +183,11 @@ class HomeView extends StatelessWidget {
                           spacing,
                         ),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           spacing: spacing,
                           children: [
                             Expanded(
-                              child: LayoutBuilder(
-                                builder: (context, constraints) {
-                                  return FittedBox(
-                                    fit: BoxFit.scaleDown,
-                                    child: SizedBox(
-                                      width: constraints.maxWidth,
-                                      child: Text.rich(
-                                        textAlign: TextAlign.justify,
-                                        TextSpan(
-                                          children: [
-                                            TextSpan(
-                                              text: localizations.body0,
-                                              style: textStyleNormal,
-                                            ),
-                                            TextSpan(
-                                              text: localizations.body1,
-                                              style: aboutStyleHighlight,
-                                            ),
-                                            TextSpan(
-                                              text: localizations.body2,
-                                              style: textStyleNormal,
-                                            ),
-                                            TextSpan(
-                                              text: localizations.body3,
-                                              style: aboutStyleHighlight,
-                                            ),
-                                            TextSpan(
-                                              text: localizations.body4,
-                                              style: textStyleNormal,
-                                            ),
-                                            TextSpan(
-                                              text: '\n\n',
-                                            ),
-                                            TextSpan(
-                                              text: localizations.body5,
-                                              style: textStyleNormal,
-                                            ),
-                                            TextSpan(
-                                              text: localizations.body6,
-                                              style: aboutStyleHighlight,
-                                            ),
-                                            TextSpan(
-                                              text: localizations.body7,
-                                              style: textStyleNormal,
-                                            ),
-                                            TextSpan(
-                                              text: localizations.body8,
-                                              style: aboutStyleHighlight,
-                                            ),
-                                            TextSpan(
-                                              text: localizations.body9,
-                                              style: textStyleNormal,
-                                            ),
-                                            TextSpan(
-                                              text: localizations.body10,
-                                              style: aboutStyleHighlight,
-                                            ),
-                                            TextSpan(
-                                              text: localizations.body11,
-                                              style: textStyleNormal,
-                                            ),
-                                            TextSpan(
-                                              text: localizations.body12,
-                                              style: aboutStyleHighlight,
-                                            ),
-                                            TextSpan(
-                                              text: localizations.body13,
-                                              style: textStyleNormal,
-                                            ),
-                                            TextSpan(
-                                              text: '\n\n',
-                                            ),
-                                            TextSpan(
-                                              text: localizations.body14,
-                                              style: textStyleNormal,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
+                              child: description,
                             ),
                             Expanded(
                               child: controller.isAudioEngineRunning
@@ -228,8 +227,16 @@ class HomeView extends StatelessWidget {
                                           spacing: 8.0,
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
-                                            Text(localizations.button),
-                                            Icon(Icons.mic_rounded),
+                                            Flexible(
+                                              child: FittedBox(
+                                                fit: BoxFit.scaleDown,
+                                                child: Text(
+                                                  localizations.button,
+                                                  maxLines: 1,
+                                                ),
+                                              ),
+                                            ),
+                                            const Icon(Icons.mic_rounded),
                                           ],
                                         ),
                                       ),
