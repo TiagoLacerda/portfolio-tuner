@@ -36,8 +36,8 @@ class _TunerTargetDialogTableState extends State<TunerTargetDialogTable> {
     final notes = 12;
     final minMidi = widget.minValue.ceil();
     final maxMidi = widget.maxValue.floor();
-    final minOctave = minMidi ~/ 11;
-    final maxOctave = maxMidi ~/ 11;
+    final minOctave = minMidi ~/ notes - 1;
+    final maxOctave = maxMidi ~/ notes - 1;
 
     final rows = <TableRow>[];
 
@@ -56,9 +56,11 @@ class _TunerTargetDialogTableState extends State<TunerTargetDialogTable> {
             ? colorScheme.primary
             : colorScheme.onSurface.withValues(alpha: midi % 2 == 0 ? 1 / 16 : 1 / 32);
 
+        final isInRange = midi >= minMidi && midi <= maxMidi;
+
         Widget child;
 
-        if (midi < minMidi || midi > maxMidi) {
+        if (!isInRange) {
           child = SizedBox.shrink();
         } else {
           child = Padding(
@@ -89,7 +91,7 @@ class _TunerTargetDialogTableState extends State<TunerTargetDialogTable> {
         cells.add(
           TableCell(
             child: InkWell(
-              onTap: () => widget.onSelected(midi.toDouble()),
+              onTap: isInRange ? () => widget.onSelected(midi.toDouble()) : null,
               child: ColoredBox(
                 color: backgroundColor,
                 child: child,

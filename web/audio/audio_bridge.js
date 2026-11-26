@@ -8,6 +8,8 @@ class AudioEngine {
   stream = null;
   source = null;
   node = null;
+  bufferPointer = 0;
+  bufferSamples = 0;
 
   get minFrequency() {
     return wasm._get_min_frequency();
@@ -66,15 +68,15 @@ class AudioEngine {
     this.node.port.onmessage = (event) => {
       const samples = event.data;
 
-      const ptr =
-        wasm._malloc(samples.length * 4);
+      if (samples.length > this.bufferSamples) {
+        wasm._free(this.bufferPointer);
+        this.bufferPointer = wasm._malloc(samples.length * 4);
+        this.bufferSamples = samples.length;
+      }
 
-      wasm.HEAPF32.set(samples, ptr >> 2);
+      wasm.HEAPF32.set(samples, this.bufferPointer >> 2);
 
-      const result =
-        wasm._process(ptr, samples.length);
-
-      wasm._free(ptr);
+      const result = wasm._process(this.bufferPointer, samples.length);
 
       for (const listener of this.listeners) {
         listener(result);
@@ -109,6 +111,10 @@ class AudioEngine {
   dispose() {
     this.stop();
     this.listeners.clear();
+
+    wasm._free(this.bufferPointer);
+    this.bufferPointer = 0;
+    this.bufferSamples = 0;
   }
 }
 

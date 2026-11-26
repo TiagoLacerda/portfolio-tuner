@@ -23,7 +23,7 @@ YIN::YIN(int minFrequency, int maxFrequency, int sampleRate)
     this->maxLag = sampleRate / minFrequency;
 
     this->frameSamples = next_power_of_two(maxLag * 2);
-    this->hopSamples = frameSamples / 2;
+    this->hopSamples = frameSamples / 4;
     // No wrap-around: correlation only reads lags < maxLag of a signal zero beyond frameSamples - maxLag
     this->fftSamples = frameSamples;
 
