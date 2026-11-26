@@ -78,6 +78,10 @@ class AudioEngine {
 
       const result = wasm._process(this.bufferPointer, samples.length);
 
+      if (result < 0) {
+        return;
+      }
+
       for (const listener of this.listeners) {
         listener(result);
       }

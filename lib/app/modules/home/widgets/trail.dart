@@ -27,31 +27,36 @@ class Trail extends StatefulWidget {
   State<Trail> createState() => _TrailState();
 }
 
-class _TrailState extends State<Trail> {
+class _TrailState extends State<Trail> with SingleTickerProviderStateMixin {
   final _buffer = Queue<TrailPoint>();
 
   final trailPointLifetime = const Duration(seconds: 10);
 
   StreamSubscription<TrailPoint>? _subscription;
-  Timer? _timer;
 
-  void listener(TrailPoint trailPoint) => setState(() => _buffer.addFirst(trailPoint));
+  late final AnimationController _frames;
+
+  void listener(TrailPoint trailPoint) => _buffer.addFirst(trailPoint);
+
+  void _removeExpired() {
+    final limit = DateTime.now().subtract(trailPointLifetime);
+
+    while (_buffer.isNotEmpty && _buffer.last.dateTime.isBefore(limit)) {
+      _buffer.removeLast();
+    }
+  }
 
   @override
   void initState() {
     super.initState();
 
     _subscription = widget.values.listen(listener);
-    _timer = Timer.periodic(const Duration(milliseconds: 16), (_) {
-      final limit = DateTime.now().subtract(trailPointLifetime);
-
-      // TODO: Is this optimal use of setState?
-      setState(() {
-        while (_buffer.isNotEmpty && _buffer.last.dateTime.isBefore(limit)) {
-          _buffer.removeLast();
-        }
-      });
-    });
+    _frames = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    )
+      ..addListener(_removeExpired)
+      ..repeat();
   }
 
   @override
@@ -67,7 +72,7 @@ class _TrailState extends State<Trail> {
   @override
   void dispose() {
     _subscription?.cancel();
-    _timer?.cancel();
+    _frames.dispose();
     super.dispose();
   }
 
@@ -75,22 +80,24 @@ class _TrailState extends State<Trail> {
   Widget build(BuildContext context) {
     return CustomPaint(
       painter: _TrailPainter(
-        values: List.unmodifiable(_buffer),
+        values: _buffer,
         trailPointLifetime: trailPointLifetime,
+        repaint: _frames,
       ),
     );
   }
 }
 
 class _TrailPainter extends CustomPainter {
-  final List<TrailPoint> values;
+  final Iterable<TrailPoint> values;
   final Duration trailPointLifetime;
   final double pointRadius;
   final double pixelsPerSecond;
 
-  const _TrailPainter({
+  _TrailPainter({
     required this.values,
     required this.trailPointLifetime,
+    super.repaint,
   }) : pointRadius = 2.0,
        pixelsPerSecond = 24.0;
 

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:flutter/material.dart';
 
@@ -30,16 +31,35 @@ class TunerWidget extends StatefulWidget {
 }
 
 class _TunerWidgetState extends State<TunerWidget> {
+  static const _medianLength = 5;
+
+  /// How long without a valid estimate before the reading is cleared.
+  static const _signalTimeout = Duration(milliseconds: 400);
+
   double? _midi;
   double? _targetMidi;
+
+  final _recentMidi = Queue<double>();
+  Timer? _signalTimer;
 
   StreamSubscription? subscription;
 
   StreamController<TrailPoint> trailPointStream = StreamController.broadcast();
 
   void listener(double value) {
+    _signalTimer?.cancel();
+    _signalTimer = Timer(_signalTimeout, _onSignalLost);
+
+    _recentMidi.addLast(TunerUtils.frequencyToMidi(value));
+
+    if (_recentMidi.length > _medianLength) {
+      _recentMidi.removeFirst();
+    }
+
+    final sorted = _recentMidi.toList()..sort();
+
     setState(() {
-      _midi = TunerUtils.frequencyToMidi(value);
+      _midi = sorted[sorted.length ~/ 2];
 
       final current = _midi!;
       final target = _targetMidi ?? current.roundToDouble();
@@ -53,6 +73,12 @@ class _TunerWidgetState extends State<TunerWidget> {
         ),
       );
     });
+  }
+
+  void _onSignalLost() {
+    _recentMidi.clear();
+
+    setState(() => _midi = null);
   }
 
   @override
@@ -77,6 +103,7 @@ class _TunerWidgetState extends State<TunerWidget> {
   @override
   void dispose() {
     subscription?.cancel();
+    _signalTimer?.cancel();
     trailPointStream.close();
     super.dispose();
   }
@@ -87,7 +114,7 @@ class _TunerWidgetState extends State<TunerWidget> {
 
     var color = colorScheme.onSurface;
     var alignmentX = 0.0;
-    var text = '';
+    var text = '-';
 
     if (_midi != null) {
       final midi = _midi!;

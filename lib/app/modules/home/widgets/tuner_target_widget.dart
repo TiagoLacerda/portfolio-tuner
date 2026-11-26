@@ -15,7 +15,7 @@ class TunerTargetWidget extends StatelessWidget {
     super.key,
     required this.targetFrequency,
     required this.onChanged,
-    this.minFrequency = 20,
+    this.minFrequency = 40,
     this.maxFrequency = 20000,
     this.size = 48.0,
   }) : assert(minFrequency > 0),

@@ -7,7 +7,7 @@ final class HomeController with ChangeNotifier {
 
   bool get isAudioEngineRunning => _audioEngine.isRunning;
 
-  double get minFrequency => _audioEngine.minFrequency ?? 20.0;
+  double get minFrequency => _audioEngine.minFrequency ?? 40.0;
 
   double get maxFrequency => _audioEngine.maxFrequency ?? 20000.0;
 
