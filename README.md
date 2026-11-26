@@ -1,3 +1,3 @@
 # portfolio-tuner
 
-A simple tuner using the YIN algorithm. Tuning engine is implemented in C++, compiled to WebAssembly and integrated with a Flutter web application through a JavaScript audio bridge.
+A tuner using the YIN algorithm implemented in C++, compiled to WebAssembly, where tone estimates reach the Flutter interface through a JavaScript audio bridge.

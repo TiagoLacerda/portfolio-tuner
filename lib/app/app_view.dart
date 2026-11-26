@@ -21,7 +21,7 @@ class AppView extends StatelessWidget {
           child: MaterialApp.router(
             key: ValueKey(controller.locale),
             scaffoldMessengerKey: controller.scaffoldMessengerKey,
-            title: 'Afinador',
+            onGenerateTitle: (context) => ModularLocalization.localizations.appView.title,
             theme: PortfolioTheme.light,
             darkTheme: PortfolioTheme.dark,
             themeMode: controller.themeMode,

@@ -1,4 +1,7 @@
 {
+    "appView": {
+        "title": "Tiago Lacerda - Afinador"
+    },
     "modules": {
         "home": {
             "homeView": {

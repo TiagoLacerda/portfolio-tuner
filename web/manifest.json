@@ -1,11 +1,11 @@
 {
-    "name": "yin_tuner",
-    "short_name": "yin_tuner",
+    "name": "portfolio-tuner",
+    "short_name": "portfolio-tuner",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#F0F0F0",
     "theme_color": "#2FB5B7",
-    "description": "A tuner using the YIN algorithm implemented in C++, compiled to WebAssembly, where tone estimates reach the Flutter interface through a JavaScript audio bridge.",
+    "description": "Um afinador utilizando o algoritmo YIN implementado em C++ e compilado para WebAssembly, no qual as estimativas de tom chegam à interface Flutter por meio de uma ponte de áudio em JavaScript.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
