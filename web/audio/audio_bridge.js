@@ -28,7 +28,11 @@ class AudioEngine {
 
     try {
       this.stream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
+        audio: {
+          echoCancellation: false,
+          noiseSuppression: false,
+          autoGainControl: false,
+        },
       });
     } catch (error) {
       console.warn('Microphone access was not granted.', error);
@@ -38,6 +42,8 @@ class AudioEngine {
 
     try {
       this.audioContext = new AudioContext();
+
+      wasm._set_sample_rate(this.audioContext.sampleRate);
 
       await this.audioContext.audioWorklet.addModule(
         '/audio/audio_processor.js'

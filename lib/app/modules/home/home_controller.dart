@@ -22,4 +22,10 @@ final class HomeController with ChangeNotifier {
     await _audioEngine.stop();
     notifyListeners();
   }
+
+  @override
+  void dispose() {
+    _audioEngine.dispose();
+    super.dispose();
+  }
 }
