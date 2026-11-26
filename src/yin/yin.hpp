@@ -27,19 +27,21 @@ private:
     int bufferPointer;
     int samplesSinceLastFrame;
 
-    std::vector<float> window;
     std::vector<float> buffer;
     std::vector<std::complex<float>> fftBuffer;
+    std::vector<std::complex<float>> twiddles;
+
+    std::vector<double> cumulativeEnergy;
+    std::vector<float> differences;
+    std::vector<float> normalizedDifferences;
 
     /// @brief Difference function, evaluated over [0, maxLag).
-    std::vector<float> DFARR();
+    const std::vector<float> &DFARR();
 
     /// @brief Cumulative mean-normalized difference function.
-    std::vector<float> CMNDF(const std::vector<float> &df);
+    const std::vector<float> &CMNDF(const std::vector<float> &df);
 
     float energy();
 
     float estimate();
-
-    std::vector<float> compute_hanning(int n);
 };

@@ -31,9 +31,13 @@ YIN::YIN(int minFrequency, int maxFrequency, int sampleRate)
     this->bufferPointer = 0;
     this->samplesSinceLastFrame = 0;
 
-    this->window = compute_hanning(frameSamples);
     this->buffer = std::vector<float>(bufferSamples);
     this->fftBuffer = std::vector<std::complex<float>>(fftSamples);
+    this->twiddles = FFT::compute_twiddles(fftSamples);
+
+    this->cumulativeEnergy = std::vector<double>(frameSamples + 1);
+    this->differences = std::vector<float>(maxLag);
+    this->normalizedDifferences = std::vector<float>(maxLag);
 }
 
 float YIN::processBlock(float *samples, int length)
@@ -56,7 +60,7 @@ float YIN::processBlock(float *samples, int length)
     return pitch;
 }
 
-std::vector<float> YIN::DFARR()
+const std::vector<float> &YIN::DFARR()
 {
     int frameStart = (bufferPointer - frameSamples + bufferSamples) % bufferSamples;
 
@@ -64,7 +68,7 @@ std::vector<float> YIN::DFARR()
     int integrationLength = frameSamples - maxLag;
 
     // cumulativeEnergy[i] = Σx²[0, i)
-    std::vector<double> cumulativeEnergy(frameSamples + 1);
+    cumulativeEnergy[0] = 0.0;
 
     // Both real signals in one complex FFT: real = x[0, W) zero-padded, imaginary = x[0, frameSamples)
     for (int i = 0; i < frameSamples; ++i)
@@ -75,7 +79,7 @@ std::vector<float> YIN::DFARR()
         cumulativeEnergy[i + 1] = cumulativeEnergy[i] + static_cast<double>(sample) * sample;
     }
 
-    FFT::forward(fftBuffer);
+    FFT::forward(fftBuffer, twiddles);
 
     // Separate the two spectra via Hermitian symmetry; the cross-spectrum at N-k is the conjugate of the one at k
     for (int k = 0; k <= fftSamples / 2; ++k)
@@ -93,9 +97,7 @@ std::vector<float> YIN::DFARR()
         fftBuffer[mirror] = std::conj(crossSpectrum);
     }
 
-    FFT::reverse(fftBuffer);
-
-    std::vector<float> differences(maxLag);
+    FFT::reverse(fftBuffer, twiddles);
 
     double integrationEnergy = cumulativeEnergy[integrationLength];
 
@@ -111,11 +113,9 @@ std::vector<float> YIN::DFARR()
     return differences;
 }
 
-std::vector<float> YIN::CMNDF(const std::vector<float> &df)
+const std::vector<float> &YIN::CMNDF(const std::vector<float> &df)
 {
-    std::vector<float> result(maxLag);
-
-    result[0] = 1.0f;
+    normalizedDifferences[0] = 1.0f;
 
     float sum = 0.0f;
 
@@ -123,10 +123,10 @@ std::vector<float> YIN::CMNDF(const std::vector<float> &df)
     {
         sum += df[lag];
 
-        result[lag] = df[lag] * lag / (sum == 0.0f ? std::numeric_limits<float>::min() : sum);
+        normalizedDifferences[lag] = df[lag] * lag / (sum == 0.0f ? std::numeric_limits<float>::min() : sum);
     }
 
-    return result;
+    return normalizedDifferences;
 }
 
 float YIN::energy()
@@ -140,7 +140,7 @@ float YIN::energy()
     {
         int idx = (frameStart + k) % bufferSamples;
 
-        float sample = buffer[idx] * window[k];
+        float sample = buffer[idx];
 
         result += sample * sample;
     }
@@ -150,7 +150,7 @@ float YIN::energy()
 
 float YIN::estimate()
 {
-    if (energy() < 1e-4)
+    if (energy() < 2.7e-4f)
     {
         return -1.0f;
     }
@@ -158,8 +158,8 @@ float YIN::estimate()
     float threshold = 1e-1f;
     float unvoicedThreshold = 0.35f;
 
-    auto df = DFARR();
-    auto cmndf = CMNDF(df);
+    const auto &df = DFARR();
+    const auto &cmndf = CMNDF(df);
 
     int estimated = 0;
 
@@ -223,28 +223,4 @@ float YIN::estimate()
     }
 
     return sampleRate / estimateFloat;
-}
-
-std::vector<float> YIN::compute_hanning(int n)
-{
-    std::vector<float> result(n);
-
-    if (n < 2)
-    {
-        if (n == 1)
-        {
-            result[0] = 1.0f;
-        }
-
-        return result;
-    }
-
-    const float scale = 2.0f * FFT::PI / static_cast<float>(n - 1);
-
-    for (int i = 0; i < n; ++i)
-    {
-        result[i] = 0.5f - 0.5f * std::cos(scale * static_cast<float>(i));
-    }
-
-    return result;
 }

@@ -5,7 +5,7 @@
 
 #include "yin/yin.hpp"
 
-static const int minFrequency = 20;
+static const int minFrequency = 40;
 
 // Nyquist, set once the sample rate is known
 static int maxFrequency = 0;
