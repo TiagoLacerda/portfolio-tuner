@@ -31,12 +31,6 @@ private:
     std::vector<float> buffer;
     std::vector<std::complex<float>> fftBuffer;
 
-    /// @brief Autocorrelation function.
-    float ACF(int lag);
-
-    /// @brief Difference function.
-    float DF(int lag);
-
     /// @brief Difference function, evaluated over [0, maxLag).
     std::vector<float> DFARR();
 

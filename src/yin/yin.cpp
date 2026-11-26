@@ -1,5 +1,6 @@
 #include "yin.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <limits>
 
@@ -23,7 +24,8 @@ YIN::YIN(int minFrequency, int maxFrequency, int sampleRate)
 
     this->frameSamples = next_power_of_two(maxLag * 2);
     this->hopSamples = frameSamples / 2;
-    this->fftSamples = next_power_of_two(frameSamples * 2);
+    // No wrap-around: correlation only reads lags < maxLag of a signal zero beyond frameSamples - maxLag
+    this->fftSamples = frameSamples;
 
     this->bufferSamples = frameSamples + maxLag;
     this->bufferPointer = 0;
@@ -54,75 +56,59 @@ float YIN::processBlock(float *samples, int length)
     return pitch;
 }
 
-float YIN::ACF(int lag)
-{
-    float result = 0.0f;
-    int frameStart = (bufferPointer - frameSamples + bufferSamples) % bufferSamples;
-
-    for (int k = 0; k < frameSamples; ++k)
-    {
-        int idx1 = (frameStart + k) % bufferSamples;
-        int idx2 = (idx1 + lag) % bufferSamples;
-        float weight = window[k] * window[k];
-        result += buffer[idx1] * buffer[idx2] * weight;
-    }
-
-    return result;
-}
-
-float YIN::DF(int lag)
-{
-    float result = 0.0f;
-
-    int frameStart = (bufferPointer - frameSamples + bufferSamples) % bufferSamples;
-
-    for (int k = 0; k < frameSamples; ++k)
-    {
-        int idx1 = (frameStart + k) % bufferSamples;
-        int idx2 = (idx1 + lag) % bufferSamples;
-
-        float difference = (buffer[idx1] - buffer[idx2]) * window[k];
-
-        result += difference * difference;
-    }
-
-    return result;
-}
-
 std::vector<float> YIN::DFARR()
 {
     int frameStart = (bufferPointer - frameSamples + bufferSamples) % bufferSamples;
 
+    // d(τ) = Σx²[0, W) + Σx²[τ, τ+W) - 2·Σx[j]·x[j+τ], with integration window W
+    int integrationLength = frameSamples - maxLag;
+
+    // cumulativeEnergy[i] = Σx²[0, i)
+    std::vector<double> cumulativeEnergy(frameSamples + 1);
+
+    // Both real signals in one complex FFT: real = x[0, W) zero-padded, imaginary = x[0, frameSamples)
     for (int i = 0; i < frameSamples; ++i)
     {
-        int idx = (frameStart + i) % bufferSamples;
-        fftBuffer[i] = std::complex<float>(buffer[idx] * window[i], 0.0f);
-    }
+        float sample = buffer[(frameStart + i) % bufferSamples];
 
-    for (int i = frameSamples; i < fftSamples; ++i)
-    {
-        fftBuffer[i] = std::complex<float>(0.0f, 0.0f);
+        fftBuffer[i] = std::complex<float>(i < integrationLength ? sample : 0.0f, sample);
+        cumulativeEnergy[i + 1] = cumulativeEnergy[i] + static_cast<double>(sample) * sample;
     }
 
     FFT::forward(fftBuffer);
 
-    for (int i = 0; i < fftSamples; ++i)
+    // Separate the two spectra via Hermitian symmetry; the cross-spectrum at N-k is the conjugate of the one at k
+    for (int k = 0; k <= fftSamples / 2; ++k)
     {
-        fftBuffer[i] *= std::conj(fftBuffer[i]);
+        int mirror = (fftSamples - k) % fftSamples;
+
+        std::complex<float> packed = fftBuffer[k];
+        std::complex<float> packedMirror = std::conj(fftBuffer[mirror]);
+
+        std::complex<float> integrationSpectrum = 0.5f * (packed + packedMirror);
+        std::complex<float> frameSpectrum = std::complex<float>(0.0f, -0.5f) * (packed - packedMirror);
+        std::complex<float> crossSpectrum = std::conj(integrationSpectrum) * frameSpectrum;
+
+        fftBuffer[k] = crossSpectrum;
+        fftBuffer[mirror] = std::conj(crossSpectrum);
     }
 
     FFT::reverse(fftBuffer);
 
-    std::vector<float> result(maxLag);
+    std::vector<float> differences(maxLag);
 
-    float acf0 = fftBuffer[0].real();
+    double integrationEnergy = cumulativeEnergy[integrationLength];
 
     for (int lag = 0; lag < maxLag; ++lag)
     {
-        result[lag] = 2.0f * (acf0 - fftBuffer[lag].real());
+        double shiftedEnergy = cumulativeEnergy[lag + integrationLength] - cumulativeEnergy[lag];
+        double crossCorrelation = fftBuffer[lag].real();
+        double difference = integrationEnergy + shiftedEnergy - 2.0 * crossCorrelation;
+
+        differences[lag] = static_cast<float>(std::max(0.0, difference));
     }
 
-    return result;
+    return differences;
 }
 
 std::vector<float> YIN::CMNDF(const std::vector<float> &df)
@@ -170,6 +156,7 @@ float YIN::estimate()
     }
 
     float threshold = 1e-1f;
+    float unvoicedThreshold = 0.35f;
 
     auto df = DFARR();
     auto cmndf = CMNDF(df);
@@ -196,16 +183,22 @@ float YIN::estimate()
     {
         // Return global minimum
 
-        int bestLag = 1;
+        int bestLag = minLag;
         float bestValue = cmndf[bestLag];
 
-        for (int lag = 2; lag < maxLag; ++lag)
+        for (int lag = minLag + 1; lag < maxLag; ++lag)
         {
             if (cmndf[lag] < bestValue)
             {
                 bestLag = lag;
                 bestValue = cmndf[bestLag];
             }
+        }
+
+        // Too aperiodic to be a pitch
+        if (bestValue > unvoicedThreshold)
+        {
+            return -1.0f;
         }
 
         estimated = bestLag;
@@ -217,9 +210,9 @@ float YIN::estimate()
     {
         // Parabollic interpolation
 
-        float y0 = cmndf[estimated - 1];
-        float y1 = cmndf[estimated];
-        float y2 = cmndf[estimated + 1];
+        float y0 = df[estimated - 1];
+        float y1 = df[estimated];
+        float y2 = df[estimated + 1];
 
         float denominator = 2.0f * (y0 - 2.0f * y1 + y2);
 
