@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Tick marks at -50, -25, 0, +25 and +50 cents, aligned with the needle's horizontal travel.
 class TunerScale extends StatelessWidget {

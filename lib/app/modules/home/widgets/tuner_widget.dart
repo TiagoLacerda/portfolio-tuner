@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../../../l10n/generated/modular_localization.dart';
 import '../../../core/utils/tuner_utils.dart';
@@ -166,10 +166,7 @@ class _TunerWidgetState extends State<TunerWidget> {
             showBottomNotch: true,
             child: Text(
               text,
-              style: TextTheme.of(context).bodyMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: color
-              ),
+              style: TextTheme.of(context).bodyMedium?.copyWith(fontWeight: FontWeight.bold, color: color),
             ),
           ),
         ),

@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:portfolio_design_system/portfolio_design_system.dart';
 
 import '../l10n/generated/modular_localization.dart';
@@ -30,9 +29,7 @@ class AppView extends StatelessWidget {
             supportedLocales: controller.supportedLocales,
             localizationsDelegates: const [
               ModularLocalization.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
+              ...GlobalMaterialLocalizations.delegates,
             ],
             routerConfig: routerConfig,
           ),

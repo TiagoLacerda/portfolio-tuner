@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class TrailPoint {
   final double value;
@@ -51,12 +51,13 @@ class _TrailState extends State<Trail> with SingleTickerProviderStateMixin {
     super.initState();
 
     _subscription = widget.values.listen(listener);
-    _frames = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 1),
-    )
-      ..addListener(_removeExpired)
-      ..repeat();
+    _frames =
+        AnimationController(
+            vsync: this,
+            duration: const Duration(seconds: 1),
+          )
+          ..addListener(_removeExpired)
+          ..repeat();
   }
 
   @override
