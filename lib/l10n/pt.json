@@ -2,6 +2,9 @@
     "modules": {
         "home": {
             "homeView": {
+                "homeButtonTooltip": "Página inicial",
+                "brightnessSwitchTooltip": "Modo claro/escuro",
+                "localeButtonTooltip": "Idioma",
                 "body0": "O ",
                 "body1": "algoritmo YIN",
                 "body2": " estima o tom comparando o som com versões levemente deslocadas dele próprio até encontrar a melhor correspondência, sendo o inverso deste atraso a ",
@@ -29,6 +32,9 @@
                     "title": "SELECIONE UMA NOTA",
                     "clear": "LIMPAR",
                     "select": "SELECIONAR"
+                },
+                "tunerWidget": {
+                    "hint": "Toque uma nota"
                 }
             }
         }

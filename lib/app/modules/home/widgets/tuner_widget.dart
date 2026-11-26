@@ -3,9 +3,11 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 
+import '../../../../l10n/generated/modular_localization.dart';
 import '../../../core/utils/tuner_utils.dart';
 import 'trail.dart';
 import 'tuner_badge.dart';
+import 'tuner_scale.dart';
 import 'tuner_target_widget.dart';
 
 class TunerWidget extends StatefulWidget {
@@ -114,7 +116,7 @@ class _TunerWidgetState extends State<TunerWidget> {
 
     var color = colorScheme.onSurface;
     var alignmentX = 0.0;
-    var text = '-';
+    var text = '';
 
     if (_midi != null) {
       final midi = _midi!;
@@ -124,7 +126,9 @@ class _TunerWidgetState extends State<TunerWidget> {
 
       alignmentX = offset / (2 + offset.abs());
       color = Color.lerp(Colors.green, Colors.red, alignmentX.abs())!;
-      text = TunerUtils.midiToFrequency(midi).toStringAsFixed(0);
+
+      final cents = (offset * 100).round();
+      text = cents > 0 ? '+$cents' : '$cents';
     }
 
     double? targetFrequency;
@@ -157,6 +161,7 @@ class _TunerWidgetState extends State<TunerWidget> {
           duration: const Duration(milliseconds: 120),
           curve: Curves.easeOutCubic,
           child: TunerBadge(
+            size: widget.badgeSize,
             borderColor: color,
             showBottomNotch: true,
             child: Text(
@@ -168,10 +173,36 @@ class _TunerWidgetState extends State<TunerWidget> {
             ),
           ),
         ),
+        TunerScale(
+          badgeSize: widget.badgeSize,
+        ),
         Expanded(
-          child: Trail(
-            values: trailPointStream.stream,
-            badgeSize: widget.badgeSize,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              Trail(
+                values: trailPointStream.stream,
+                badgeSize: widget.badgeSize,
+              ),
+              Align(
+                alignment: Alignment.topCenter,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    top: widget.spacing,
+                  ),
+                  child: AnimatedOpacity(
+                    opacity: _midi == null ? 1.0 : 0.0,
+                    duration: const Duration(milliseconds: 200),
+                    child: Text(
+                      ModularLocalization.localizations.modules.home.widgets.tunerWidget.hint,
+                      style: TextTheme.of(context).bodyMedium?.copyWith(
+                        color: colorScheme.onSurface.withValues(alpha: 0.4),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],

@@ -100,38 +100,58 @@ abstract class ModularLocalizationEntries {
   /// `pt`: **" e integrada ao aplicativo por uma ponte em "**
   String get entry14;
 
+  /// `en`: **"Dark/light mode"**
+  ///
+  /// `pt`: **"Modo claro/escuro"**
+  String get entry15;
+
   /// `en`: **"Tap to tune"**
   ///
   /// `pt`: **"Pressione para afinar"**
-  String get entry15;
+  String get entry16;
+
+  /// `en`: **"Homepage"**
+  ///
+  /// `pt`: **"Página inicial"**
+  String get entry17;
+
+  /// `en`: **"Language"**
+  ///
+  /// `pt`: **"Idioma"**
+  String get entry18;
 
   /// `en`: **"To use the tuner, you need to allow access to the microphone in your browser settings."**
   ///
   /// `pt`: **"Para utilizar o afinador é necessário que você permita o acesso ao microfone nas configurações do seu navegador."**
-  String get entry16;
+  String get entry19;
 
   /// `en`: **"GOT IT"**
   ///
   /// `pt`: **"ENTENDI"**
-  String get entry17;
+  String get entry20;
 
   /// `en`: **"Microphone Access"**
   ///
   /// `pt`: **"Acesso ao Microfone"**
-  String get entry18;
+  String get entry21;
 
   /// `en`: **"CLEAR"**
   ///
   /// `pt`: **"LIMPAR"**
-  String get entry19;
+  String get entry22;
 
   /// `en`: **"SELECT"**
   ///
   /// `pt`: **"SELECIONAR"**
-  String get entry20;
+  String get entry23;
 
   /// `en`: **"SELECT A NOTE"**
   ///
   /// `pt`: **"SELECIONE UMA NOTA"**
-  String get entry21;
+  String get entry24;
+
+  /// `en`: **"Play a note"**
+  ///
+  /// `pt`: **"Toque uma nota"**
+  String get entry25;
 }

@@ -126,16 +126,36 @@ class ModularLocalizationInternalClass2 implements ModularLocalization {
   ///
   /// `pt`: **" e integrada ao aplicativo por uma ponte em "**
   ///
+  /// **.brightnessSwitchTooltip**
+  ///
+  /// `en`: **"Dark/light mode"**
+  ///
+  /// `pt`: **"Modo claro/escuro"**
+  ///
   /// **.button**
   ///
   /// `en`: **"Tap to tune"**
   ///
   /// `pt`: **"Pressione para afinar"**
   ///
+  /// **.homeButtonTooltip**
+  ///
+  /// `en`: **"Homepage"**
+  ///
+  /// `pt`: **"Página inicial"**
+  ///
+  /// **.localeButtonTooltip**
+  ///
+  /// `en`: **"Language"**
+  ///
+  /// `pt`: **"Idioma"**
+  ///
   ModularLocalizationInternalClass3 get homeView => const ModularLocalizationInternalClass3();
   /// **.microphoneAccessDialog**: `...`
   ///
   /// **.tunerTargetDialog**: `...`
+  ///
+  /// **.tunerWidget**: `...`
   ///
   ModularLocalizationInternalClass4 get widgets => const ModularLocalizationInternalClass4();
 }
@@ -233,11 +253,29 @@ class ModularLocalizationInternalClass3 implements ModularLocalization {
   ///
   String get body9 => ModularLocalization.entries.entry14;
 
+  /// `en`: **"Dark/light mode"**
+  ///
+  /// `pt`: **"Modo claro/escuro"**
+  ///
+  String get brightnessSwitchTooltip => ModularLocalization.entries.entry15;
+
   /// `en`: **"Tap to tune"**
   ///
   /// `pt`: **"Pressione para afinar"**
   ///
-  String get button => ModularLocalization.entries.entry15;
+  String get button => ModularLocalization.entries.entry16;
+
+  /// `en`: **"Homepage"**
+  ///
+  /// `pt`: **"Página inicial"**
+  ///
+  String get homeButtonTooltip => ModularLocalization.entries.entry17;
+
+  /// `en`: **"Language"**
+  ///
+  /// `pt`: **"Idioma"**
+  ///
+  String get localeButtonTooltip => ModularLocalization.entries.entry18;
 
 }
 
@@ -282,6 +320,13 @@ class ModularLocalizationInternalClass4 implements ModularLocalization {
   /// `pt`: **"SELECIONE UMA NOTA"**
   ///
   ModularLocalizationInternalClass6 get tunerTargetDialog => const ModularLocalizationInternalClass6();
+  /// **.hint**
+  ///
+  /// `en`: **"Play a note"**
+  ///
+  /// `pt`: **"Toque uma nota"**
+  ///
+  ModularLocalizationInternalClass7 get tunerWidget => const ModularLocalizationInternalClass7();
 }
 
 class ModularLocalizationInternalClass5 implements ModularLocalization {
@@ -291,19 +336,19 @@ class ModularLocalizationInternalClass5 implements ModularLocalization {
   ///
   /// `pt`: **"Para utilizar o afinador é necessário que você permita o acesso ao microfone nas configurações do seu navegador."**
   ///
-  String get body => ModularLocalization.entries.entry16;
+  String get body => ModularLocalization.entries.entry19;
 
   /// `en`: **"GOT IT"**
   ///
   /// `pt`: **"ENTENDI"**
   ///
-  String get button => ModularLocalization.entries.entry17;
+  String get button => ModularLocalization.entries.entry20;
 
   /// `en`: **"Microphone Access"**
   ///
   /// `pt`: **"Acesso ao Microfone"**
   ///
-  String get title => ModularLocalization.entries.entry18;
+  String get title => ModularLocalization.entries.entry21;
 
 }
 
@@ -314,19 +359,30 @@ class ModularLocalizationInternalClass6 implements ModularLocalization {
   ///
   /// `pt`: **"LIMPAR"**
   ///
-  String get clear => ModularLocalization.entries.entry19;
+  String get clear => ModularLocalization.entries.entry22;
 
   /// `en`: **"SELECT"**
   ///
   /// `pt`: **"SELECIONAR"**
   ///
-  String get select => ModularLocalization.entries.entry20;
+  String get select => ModularLocalization.entries.entry23;
 
   /// `en`: **"SELECT A NOTE"**
   ///
   /// `pt`: **"SELECIONE UMA NOTA"**
   ///
-  String get title => ModularLocalization.entries.entry21;
+  String get title => ModularLocalization.entries.entry24;
+
+}
+
+class ModularLocalizationInternalClass7 implements ModularLocalization {
+  const ModularLocalizationInternalClass7();
+
+  /// `en`: **"Play a note"**
+  ///
+  /// `pt`: **"Toque uma nota"**
+  ///
+  String get hint => ModularLocalization.entries.entry25;
 
 }
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:overlay_options_button/overlay_options_button.dart';
 import 'package:portfolio_design_system/portfolio_design_system.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../l10n/generated/modular_localization.dart';
 import '../../app_controller.dart';
@@ -42,11 +43,25 @@ class HomeView extends StatelessWidget {
             color: colorScheme.primary,
           );
 
-          final brightnessSwitch = PortfolioBrightnessSwitch(
-            onPressed: () => AppController.instance.toggleThemeMode(),
+          final homeButton = IconButton(
+            onPressed: () => launchUrl(
+              Uri.parse('https://tiagomlbrasil.com'),
+              webOnlyWindowName: '_self',
+            ),
+            tooltip: localizations.homeButtonTooltip,
+            icon: Icon(
+              Icons.arrow_back_rounded,
+            ),
           );
 
-          final localeButton = OverlayOptionsButton(
+          final brightnessSwitch = Tooltip(
+            message: localizations.brightnessSwitchTooltip,
+            child: PortfolioBrightnessSwitch(
+              onPressed: () => AppController.instance.toggleThemeMode(),
+            ),
+          );
+
+          final localeOptionsButton = OverlayOptionsButton(
             initialValue: AppController.instance.locale,
             items: AppController.instance.supportedLocales,
             onChanged: (value) => AppController.instance.locale = value,
@@ -70,6 +85,11 @@ class HomeView extends StatelessWidget {
                 ),
               );
             },
+          );
+
+          final localeButton = Tooltip(
+            message: localizations.localeButtonTooltip,
+            child: localeOptionsButton,
           );
 
           final description = AutoSizeText.rich(
@@ -161,6 +181,7 @@ class HomeView extends StatelessWidget {
                         ),
                         child: Row(
                           children: [
+                            homeButton,
                             brightnessSwitch,
                             localeButton,
                           ],

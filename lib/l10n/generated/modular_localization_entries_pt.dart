@@ -64,30 +64,46 @@ class ModularLocalizationEntriesPt extends ModularLocalizationEntries {
   String get entry14 => ' e integrada ao aplicativo por uma ponte em ';
 
   @override
+  /// **"Modo claro/escuro"**
+  String get entry15 => 'Modo claro/escuro';
+
+  @override
   /// **"Pressione para afinar"**
-  String get entry15 => 'Pressione para afinar';
+  String get entry16 => 'Pressione para afinar';
+
+  @override
+  /// **"Página inicial"**
+  String get entry17 => 'Página inicial';
+
+  @override
+  /// **"Idioma"**
+  String get entry18 => 'Idioma';
 
   @override
   /// **"Para utilizar o afinador é necessário que você permita o acesso ao microfone nas configurações do seu navegador."**
-  String get entry16 => 'Para utilizar o afinador é necessário que você permita o acesso ao microfone nas configurações do seu navegador.';
+  String get entry19 => 'Para utilizar o afinador é necessário que você permita o acesso ao microfone nas configurações do seu navegador.';
 
   @override
   /// **"ENTENDI"**
-  String get entry17 => 'ENTENDI';
+  String get entry20 => 'ENTENDI';
 
   @override
   /// **"Acesso ao Microfone"**
-  String get entry18 => 'Acesso ao Microfone';
+  String get entry21 => 'Acesso ao Microfone';
 
   @override
   /// **"LIMPAR"**
-  String get entry19 => 'LIMPAR';
+  String get entry22 => 'LIMPAR';
 
   @override
   /// **"SELECIONAR"**
-  String get entry20 => 'SELECIONAR';
+  String get entry23 => 'SELECIONAR';
 
   @override
   /// **"SELECIONE UMA NOTA"**
-  String get entry21 => 'SELECIONE UMA NOTA';
+  String get entry24 => 'SELECIONE UMA NOTA';
+
+  @override
+  /// **"Toque uma nota"**
+  String get entry25 => 'Toque uma nota';
 }

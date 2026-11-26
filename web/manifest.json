@@ -1,11 +1,11 @@
 {
-    "name": "tuner",
-    "short_name": "tuner",
+    "name": "yin_tuner",
+    "short_name": "yin_tuner",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#F0F0F0",
+    "theme_color": "#2FB5B7",
+    "description": "A tuner using the YIN algorithm implemented in C++, compiled to WebAssembly, where tone estimates reach the Flutter interface through a JavaScript audio bridge.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

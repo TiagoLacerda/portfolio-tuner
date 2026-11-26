@@ -64,30 +64,46 @@ class ModularLocalizationEntriesEn extends ModularLocalizationEntries {
   String get entry14 => ' and integrated into the application through a ';
 
   @override
+  /// **"Dark/light mode"**
+  String get entry15 => 'Dark/light mode';
+
+  @override
   /// **"Tap to tune"**
-  String get entry15 => 'Tap to tune';
+  String get entry16 => 'Tap to tune';
+
+  @override
+  /// **"Homepage"**
+  String get entry17 => 'Homepage';
+
+  @override
+  /// **"Language"**
+  String get entry18 => 'Language';
 
   @override
   /// **"To use the tuner, you need to allow access to the microphone in your browser settings."**
-  String get entry16 => 'To use the tuner, you need to allow access to the microphone in your browser settings.';
+  String get entry19 => 'To use the tuner, you need to allow access to the microphone in your browser settings.';
 
   @override
   /// **"GOT IT"**
-  String get entry17 => 'GOT IT';
+  String get entry20 => 'GOT IT';
 
   @override
   /// **"Microphone Access"**
-  String get entry18 => 'Microphone Access';
+  String get entry21 => 'Microphone Access';
 
   @override
   /// **"CLEAR"**
-  String get entry19 => 'CLEAR';
+  String get entry22 => 'CLEAR';
 
   @override
   /// **"SELECT"**
-  String get entry20 => 'SELECT';
+  String get entry23 => 'SELECT';
 
   @override
   /// **"SELECT A NOTE"**
-  String get entry21 => 'SELECT A NOTE';
+  String get entry24 => 'SELECT A NOTE';
+
+  @override
+  /// **"Play a note"**
+  String get entry25 => 'Play a note';
 }
