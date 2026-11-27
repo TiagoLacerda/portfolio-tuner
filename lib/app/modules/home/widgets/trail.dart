@@ -3,12 +3,17 @@ import 'dart:collection';
 
 import 'package:material_ui/material_ui.dart';
 
+import '../../../core/utils/tuner_utils.dart';
+
 class TrailPoint {
   final double value;
+
+  final double offset;
   final DateTime dateTime;
 
   const TrailPoint({
     required this.value,
+    required this.offset,
     required this.dateTime,
   });
 }
@@ -111,7 +116,11 @@ class _TrailPainter extends CustomPainter {
       final y = elapsedSeconds * pixelsPerSecond - pointRadius;
       final progress = (elapsedSeconds / trailPointLifetime.inSeconds.toDouble()).clamp(0, 1).toDouble();
       final value = trailPoint.value.clamp(-1.0, 1.0).toDouble();
-      final color = Color.lerp(Colors.green, Colors.red, value.abs())!.withValues(alpha: 1.0 - progress);
+      final color = Color.lerp(
+        Colors.green,
+        Colors.red,
+        TunerUtils.scaleDeviation(trailPoint.offset),
+      )!.withValues(alpha: 1.0 - progress);
       final paint = Paint()
         ..color = color
         ..strokeWidth = 0.0

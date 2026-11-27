@@ -1,5 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 
+import '../../../core/utils/tuner_utils.dart';
+
 /// Tick marks at -50, -25, 0, +25 and +50 cents, aligned with the needle's horizontal travel.
 class TunerScale extends StatelessWidget {
   final double badgeSize;
@@ -30,11 +32,11 @@ class TunerScale extends StatelessWidget {
 class _TunerScalePainter extends CustomPainter {
   /// Offsets in semitones, with whether each tick is a major one.
   static const _ticks = [
-    (-0.5, true),
-    (-0.25, false),
+    (-TunerUtils.scaleHalfRange, true),
+    (-TunerUtils.scaleHalfRange / 2, false),
     (0.0, true),
-    (0.25, false),
-    (0.5, true),
+    (TunerUtils.scaleHalfRange / 2, false),
+    (TunerUtils.scaleHalfRange, true),
   ];
 
   final double badgeSize;

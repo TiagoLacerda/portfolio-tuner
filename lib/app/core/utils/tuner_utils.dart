@@ -1,6 +1,10 @@
 import 'dart:math';
 
 abstract final class TunerUtils {
+  static const scaleHalfRange = 0.5;
+
+  static double scaleDeviation(double offset) => (offset.abs() / scaleHalfRange).clamp(0.0, 1.0);
+
   static double frequencyToMidi(double value) {
     return 69.0 + 12.0 * log(value / 440.0) / ln2;
   }

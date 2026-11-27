@@ -71,6 +71,7 @@ class _TunerWidgetState extends State<TunerWidget> {
       trailPointStream.sink.add(
         TrailPoint(
           value: alignmentX,
+          offset: offset,
           dateTime: DateTime.now(),
         ),
       );
@@ -125,7 +126,7 @@ class _TunerWidgetState extends State<TunerWidget> {
       final offset = midi - targetMidi;
 
       alignmentX = offset / (2 + offset.abs());
-      color = Color.lerp(Colors.green, Colors.red, alignmentX.abs())!;
+      color = Color.lerp(Colors.green, Colors.red, TunerUtils.scaleDeviation(offset))!;
 
       final cents = (offset * 100).round();
       text = cents > 0 ? '+$cents' : '$cents';
