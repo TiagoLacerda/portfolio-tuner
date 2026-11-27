@@ -233,7 +233,6 @@ class HomeView extends StatelessWidget {
                                       minFrequency: controller.minFrequency,
                                       maxFrequency: controller.maxFrequency,
                                       frequencies: controller.stream,
-                                      targetFrequency: 440,
                                     )
                                   : Center(
                                       child: ElevatedButton(
