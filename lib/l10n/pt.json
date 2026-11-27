@@ -8,6 +8,7 @@
                 "homeButtonTooltip": "Página inicial",
                 "brightnessSwitchTooltip": "Modo claro/escuro",
                 "localeButtonTooltip": "Idioma",
+                "githubButtonTooltip": "Repositório no GitHub",
                 "body0": "O ",
                 "body1": "algoritmo YIN",
                 "body2": " estima o tom comparando o som com versões levemente deslocadas dele próprio até encontrar a melhor correspondência, sendo o inverso deste atraso a ",

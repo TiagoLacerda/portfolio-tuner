@@ -92,6 +92,22 @@ class HomeView extends StatelessWidget {
             child: localeOptionsButton,
           );
 
+          final githubButton = IconButton(
+            onPressed: () => launchUrl(
+              Uri.parse('https://github.com/TiagoLacerda/portfolio-tuner'),
+            ),
+            tooltip: localizations.githubButtonTooltip,
+            icon: SvgPicture.asset(
+              PortfolioIcons.github,
+              width: 24.0,
+              height: 24.0,
+              colorFilter: ColorFilter.mode(
+                colorScheme.onSurface,
+                BlendMode.srcIn,
+              ),
+            ),
+          );
+
           final description = AutoSizeText.rich(
             TextSpan(
               children: [
@@ -184,6 +200,7 @@ class HomeView extends StatelessWidget {
                             homeButton,
                             brightnessSwitch,
                             localeButton,
+                            githubButton,
                           ],
                         ),
                       ),

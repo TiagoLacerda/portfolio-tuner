@@ -425,11 +425,11 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      resolved-ref: e56aed7d91f59fab9fb8f298fdd73688c7b27cee
+      resolved-ref: af68f8384ae26fc43c94ed81b33b50d232be583d
       tag-pattern: "v{{version}}"
       url: "https://github.com/TiagoLacerda/portfolio-design-system.git"
     source: git
-    version: "1.0.0"
+    version: "1.1.0"
   pub_semver:
     dependency: transitive
     description:

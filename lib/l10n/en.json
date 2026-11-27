@@ -8,6 +8,7 @@
                 "homeButtonTooltip": "Homepage",
                 "brightnessSwitchTooltip": "Dark/light mode",
                 "localeButtonTooltip": "Language",
+                "githubButtonTooltip": "GitHub repository",
                 "body0": "The ",
                 "body1": "YIN algorithm",
                 "body2": " estimates pitch by comparing the sound with slightly shifted versions of itself until it finds the best match, with the inverse of this delay being the signal's ",
